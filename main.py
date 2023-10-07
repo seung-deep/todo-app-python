@@ -1,5 +1,6 @@
 # TODO APP made by Deep
 import random
+import json
 
 items = []
 
@@ -9,7 +10,10 @@ def main():
         print("1. Add an Item.")
         print("2. View Items.")
         print("3. Delete an Item.")
-        print("4. Exit.")
+        print("4. Save to a file.")
+        print("5. Read from a file.")
+        print("6. Clear all lists.")
+        print("7. Exit.")
         choice = input("Enter your choice:")
         if choice == "1":
             add_item()
@@ -18,6 +22,12 @@ def main():
         elif choice == "3":
             delete_item()
         elif choice == "4":
+            save_file()
+        elif choice == "5":
+            read_file()
+        elif choice == "6":
+            clear_items()
+        elif choice == "7":
             exit()
         else:
             print("Invalid choice.")
@@ -69,6 +79,38 @@ def delete_item():
                 return
         items_count += 1
     print("ID not matched.")
+
+
+def save_file():
+    filename = input("Enter file name:")
+    try:
+        file = open(filename+".json", "w")
+        file.write(str(json.dumps(items)))
+        file.close()
+        print("Saved successful.")
+    except Exception as error:
+        print(error)
+    finally:
+        return
+
+
+def clear_items():
+    items.clear()
+
+
+def read_file():
+    filename = input("Enter file name:")
+    try:
+        file = open(filename+".json", "r")
+        file_content = file.read()
+        clear_items()
+        global items
+        items = eval(file_content)
+        print("File loaded successful.")
+    except Exception as error:
+        print(error)
+    finally:
+        return
 
 
 if __name__ == "__main__":
